@@ -66,8 +66,10 @@ $$ T\_{pendulum} = \tfrac{1}{2} m(\dot{x}\_p^2 + \dot{y}\_p^2) $$
 Total kinetic energy:
 
 $$
-T = T_{cart} + T_{pendulum} \\
+T = T_{cart} + T_{pendulum}
+$$
 
+$$
 T = \tfrac{1}{2}(M+m)\dot{x}^2
 + m l \dot{x}\dot{\theta}\cos\theta
 + \tfrac{1}{2} m l^2 \dot{\theta}^2
@@ -82,8 +84,10 @@ $$
 ## 4. Lagrangian
 
 $$
-\mathcal{L} = T - V \\
+\mathcal{L} = T - V
+$$
 
+$$
 \mathcal{L} =
 \tfrac{1}{2}(M+m)\dot{x}^2
 + m l \dot{x}\dot{\theta}\cos\theta
@@ -131,7 +135,6 @@ $$
 =
 \begin{bmatrix}
 (M+m)\dot{x} + m l \dot{\theta} \cos\theta \\
-
 m l \dot{x}\cos\theta + m l^2 \dot{\theta}
 \end{bmatrix}
 $$
@@ -144,8 +147,10 @@ $$
 \begin{bmatrix}
 (M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta \right) \\
 m l\left(\ddot{x} \cos\theta - \dot{x}\dot{\theta} \sin\theta\right) + m l^2 \ddot{\theta}
-\end{bmatrix} \\
+\end{bmatrix}
+$$
 
+$$
 \frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right)
 =
 \begin{bmatrix}
@@ -175,8 +180,10 @@ $$
 (M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta\right) \\
 ml\ddot{x} \cos\theta - ml\dot{x}\dot{\theta} \sin\theta + m l^2 \ddot{\theta} + m l \dot{x}\dot{\theta} \sin\theta
 - m g l \sin\theta
-\end{bmatrix} \\
+\end{bmatrix}
+$$
 
+$$
 \frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) -
 \frac{\partial \mathcal{L}}{\partial q}
 = \begin{bmatrix}
@@ -197,9 +204,9 @@ $$
 
 Generalized forces:
 
-- $ Q_x = F $
+$$ Q_x = F $$
 
-- $ Q\_\theta = 0 $
+$$ Q\_\theta = 0 $$
 
 So, the final equations are:
 
@@ -233,8 +240,10 @@ Final Dynamic Equations
 $$
 (M+m)\ddot{x}
 + m l \ddot{\theta}\cos\theta
-- m l \dot{\theta}^2\sin\theta = F \\
+- m l \dot{\theta}^2\sin\theta = F
+$$
 
+$$
 \ddot{x}\cos\theta
 + l\ddot{\theta}
 = g\sin\theta
@@ -247,8 +256,10 @@ $$
 Nonlinear equations:
 
 $$
-(M+m)\ddot{x} + m l \ddot{\theta} \cos\theta - m l \dot{\theta}^2 \sin\theta = F \\
+(M+m)\ddot{x} + m l \ddot{\theta} \cos\theta - m l \dot{\theta}^2 \sin\theta = F
+$$
 
+$$
 \ddot{x}\cos\theta
 + l\ddot{\theta}
 = g\sin\theta
@@ -263,16 +274,20 @@ Linearize at $\theta \to 0$:
 Result:
 
 $$
-(M+m)\ddot{x} + m l \ddot{\theta} = F \\
+(M+m)\ddot{x} + m l \ddot{\theta} = F
+$$
 
+$$
 \ddot{x} + l\ddot{\theta} = g\theta
 $$
 
 Solution for $\ddot{x}$ and $\ddot{\theta}$:
 
 $$
-\ddot{x} = \frac{1}{M}F - \frac{m g}{M}\theta \\
+\ddot{x} = \frac{1}{M}F - \frac{m g}{M}\theta
+$$
 
+$$
 \ddot{\theta} = \frac{g(M+m)}{l M}\theta - \frac{1}{l M}F
 $$
 
