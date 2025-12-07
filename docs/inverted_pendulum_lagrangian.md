@@ -70,9 +70,7 @@ T = T_{cart} + T_{pendulum}
 $$
 
 $$
-T = \tfrac{1}{2}(M+m)\dot{x}^2
-+ m l \dot{x}\dot{\theta}\cos\theta
-+ \tfrac{1}{2} m l^2 \dot{\theta}^2
+T = \tfrac{1}{2}(M+m)\dot{x}^2 + m l \dot{x}\dot{\theta}\cos\theta + \tfrac{1}{2} m l^2 \dot{\theta}^2
 $$
 
 ### Potential Energy
@@ -88,11 +86,7 @@ $$
 $$
 
 $$
-\mathcal{L} =
-\tfrac{1}{2}(M+m)\dot{x}^2
-+ m l \dot{x}\dot{\theta}\cos\theta
-+ \tfrac{1}{2} m l^2 \dot{\theta}^2
-- m g l \cos\theta
+\mathcal{L} = \tfrac{1}{2}(M+m)\dot{x}^2 + m l \dot{x}\dot{\theta}\cos\theta + \tfrac{1}{2} m l^2 \dot{\theta}^2 - m g l \cos\theta
 $$
 
 ## 5. Euler–Lagrange Equations
@@ -100,40 +94,37 @@ $$
 General form:
 
 $$
-\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) -
-\frac{\partial \mathcal{L}}{\partial q}
-= Q
+\frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) - \frac{\partial \mathcal{L}}{\partial q} = Q
 $$
 
 where:
 
 $$
-q =
-\begin{bmatrix}
-x \\
+q = \begin{bmatrix}x
 \theta
-\end{bmatrix},
+\end{bmatrix}
+$$
 
+$$
 \dot{q}=
 \begin{bmatrix}
 \dot{x} \\
 \dot{\theta}
-\end{bmatrix},
+\end{bmatrix}
+$$
 
-Q = \begin{bmatrix} Q_x \\ Q_\theta \end{bmatrix}
+$$
+Q = \begin{bmatrix} Q_x
+Q_\theta
+\end{bmatrix}
 $$
 
 We got:
 
 $$
-\frac{\partial \mathcal{L}}{\partial \dot{q}}
-=
-\begin{bmatrix}
-\frac{\partial \mathcal{L}}{\partial \dot{x}} \\
-\frac{\partial \mathcal{L}}{\partial \dot{\theta}}
-\end{bmatrix}
-=
-\begin{bmatrix}
+\frac{\partial \mathcal{L}}{\partial \dot{q}} = \begin{bmatrix}\frac{\partial \mathcal{L}}{\partial \dot{x}} \\
+\frac{\partial \mathcal{L}}{\partial \dot{\theta}} \end{bmatrix}
+= \begin{bmatrix}
 (M+m)\dot{x} + m l \dot{\theta} \cos\theta \\
 m l \dot{x}\cos\theta + m l^2 \dot{\theta}
 \end{bmatrix}
@@ -143,8 +134,7 @@ Time derivative for Euler–Lagrange:
 
 $$
 \frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right)
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 (M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta \right) \\
 m l\left(\ddot{x} \cos\theta - \dot{x}\dot{\theta} \sin\theta\right) + m l^2 \ddot{\theta}
 \end{bmatrix}
@@ -152,8 +142,7 @@ $$
 
 $$
 \frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right)
-=
-\begin{bmatrix}
+= \begin{bmatrix}
 (M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta \right) \\
 ml\ddot{x} \cos\theta - ml\dot{x}\dot{\theta} \sin\theta + m l^2 \ddot{\theta}
 \end{bmatrix}
@@ -162,12 +151,8 @@ $$
 and
 
 $$
-\frac{\partial \mathcal{L}}{\partial q}
-=
-\begin{bmatrix}
-0 \\
-- m l \dot{x}\dot{\theta} \sin\theta
-+ m g l \sin\theta
+\frac{\partial \mathcal{L}}{\partial q} = \begin{bmatrix}
+0 \\ - m l \dot{x}\dot{\theta} \sin\theta + m g l \sin\theta
 \end{bmatrix}
 $$
 
@@ -175,11 +160,7 @@ The equation becomes:
 
 $$
 \frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) -
-\frac{\partial \mathcal{L}}{\partial q}
-= \begin{bmatrix}
-(M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta\right) \\
-ml\ddot{x} \cos\theta - ml\dot{x}\dot{\theta} \sin\theta + m l^2 \ddot{\theta} + m l \dot{x}\dot{\theta} \sin\theta
-- m g l \sin\theta
+\frac{\partial \mathcal{L}}{\partial q} = \begin{bmatrix} (M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta\right) \\ ml\ddot{x} \cos\theta - ml\dot{x}\dot{\theta} \sin\theta + m l^2 \ddot{\theta} + m l \dot{x}\dot{\theta} \sin\theta - m g l \sin\theta
 \end{bmatrix}
 $$
 
@@ -213,40 +194,29 @@ So, the final equations are:
 1. Cart Equation of Motion
 
 $$
-(M+m)\ddot{x}
-+ m l \ddot{\theta}\cos\theta
-- m l \dot{\theta}^2\sin\theta
-= F
+(M+m)\ddot{x} + m l \ddot{\theta}\cos\theta - m l \dot{\theta}^2\sin\theta = F
 $$
 
 2. Pendulum Equation of Motion
 
 $$
-m l \ddot{x} \cos\theta
-+ m l^2 \ddot{\theta}
-- m g l \sin\theta = 0
+m l \ddot{x} \cos\theta + m l^2 \ddot{\theta} - m g l \sin\theta = 0
 $$
 
 since $m \not= 0$ and $l \not= 0$, we can minize the equation into
 
 $$
-\ddot{x} \cos\theta
-+ l\ddot{\theta}
-- g\sin\theta = 0
+\ddot{x} \cos\theta + l\ddot{\theta} - g\sin\theta = 0
 $$
 
 Final Dynamic Equations
 
 $$
-(M+m)\ddot{x}
-+ m l \ddot{\theta}\cos\theta
-- m l \dot{\theta}^2\sin\theta = F
+(M+m)\ddot{x} + m l \ddot{\theta}\cos\theta - m l \dot{\theta}^2\sin\theta = F
 $$
 
 $$
-\ddot{x}\cos\theta
-+ l\ddot{\theta}
-= g\sin\theta
+\ddot{x}\cos\theta + l\ddot{\theta} = g\sin\theta
 $$
 
 ---
@@ -260,9 +230,7 @@ $$
 $$
 
 $$
-\ddot{x}\cos\theta
-+ l\ddot{\theta}
-= g\sin\theta
+\ddot{x}\cos\theta + l\ddot{\theta} = g\sin\theta
 $$
 
 Linearize at $\theta \to 0$:
