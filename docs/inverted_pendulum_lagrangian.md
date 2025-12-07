@@ -256,77 +256,119 @@ $$
 
 ## 5. State-Space Representation
 
-We define the state vector $\mathbf{x}$ and the input $u$:
+State-Space Diagram:
+
+```ascii
+  u   +---+  (Bu)   +---+ (x_dot) +---+       x
+----->| B |-------->| + |-------->| ∫ |-------------->
+      +---+         +---+         +---+       |
+                      ^                       |
+                      |                       |
+                      |    (Ax)   +---+       v
+                      +-----------| A |<------+
+                                  +---+
+```
+
+Here is the step-by-step breakdown of the State-Space Representation equation for the inverted pendulum. The core equation is:
 
 $$
-\mathbf{x} = \begin{bmatrix} x \\
-\dot{x} \\
-\theta \\
-\dot{\theta}
-\end{bmatrix} = \begin{bmatrix} x_1 \\
-x_2 \\
-x_3 \\
-x_4
-\end{bmatrix}, \quad u = F
+\dot{\mathbf{x}} = A\mathbf{x} + B\mathbf{u}
 $$
 
-The first-order derivatives are:
+### Step 1: The State Vector ($\mathbf{x}$)
 
-- $\dot{x}_1 = \dot{x} = x_2$
-- $\dot{x}_2 = \ddot{x} = -\frac{mg}{M}x_3 + \frac{1}{M}u$
-- $\dot{x}_3 = \dot{\theta} = x_4$
-- $\dot{x}_4 = \ddot{\theta} = \frac{(M+m)g}{Ml}x_3 - \frac{1}{Ml}u$
-
-We can now write the system in the standard matrix form:
+The "State" is a snapshot of exactly what the system is doing at a specific moment. For the pendulum, we need 4 numbers to fully describe it:
 
 $$
-\dot{\mathbf{x}} = A\mathbf{x} + Bu
+\mathbf{x} = \begin{bmatrix} x \\ \dot{x} \\ \theta \\ \dot{\theta} \end{bmatrix} \begin{aligned} & \leftarrow \text{Cart Position} \\ & \leftarrow \text{Cart Velocity} \\ & \leftarrow \text{Pendulum Angle} \\ & \leftarrow \text{Pendulum Angular Velocity} \end{aligned}
 $$
 
-$$
-y = C\mathbf{x} + Du
-$$
+### Step 2: The Derivative Vector ($\dot{\mathbf{x}}$)
 
-### The System Matrix (A)
-
-This matrix determines the internal dynamics of the system.
+This represents how the state is changing. It is simply the time derivative of the vector above.
 
 $$
-A = \begin{bmatrix}
-0 & 1 & 0 & 0 \\
-0 & 0 & -\frac{mg}{M} & 0 \\
-0 & 0 & 0 & 1 \\
-0 & 0 & \frac{(M+m)g}{Ml} & 0
-\end{bmatrix}
+\dot{\mathbf{x}} = \begin{bmatrix} \dot{x} \\ \ddot{x} \\ \dot{\theta} \\ \ddot{\theta} \end{bmatrix} \begin{aligned} & \leftarrow \text{Velocity (change in position)} \\ & \leftarrow \text{Acceleration (change in velocity)} \\ & \leftarrow \text{Angular Velocity (change in angle)} \\ & \leftarrow \text{Angular Accel (change in ang. vel)} \end{aligned}
 $$
 
-### The Input Matrix (B)
+### Step 3: The System Matrix ($A$) - "Internal Physics"
 
-This matrix determines how the force $F$ affects the states.
-
-$$
-B = \begin{bmatrix}
-0 \\
-\frac{1}{M} \\
-0 \\
--\frac{1}{Ml}
-\end{bmatrix}
-$$
-
-### The Output Matrix (C) and Feedforward Matrix (D)
-
-Assuming we can measure both the cart position $x$ and the pendulum angle $\theta$:
+The $A$ matrix tells us how the system behaves naturally if no external force is applied. It connects the current state ($\mathbf{x}$) to the changes ($\dot{\mathbf{x}}$).
 
 $$
-C = \begin{bmatrix}
-1 & 0 & 0 & 0 \\
-0 & 0 & 1 & 0
-\end{bmatrix}, \quad
-D = \begin{bmatrix}
-0 \\
-0
-\end{bmatrix}
+A = \begin{bmatrix} 0 & 1 & 0 & 0 \\ 0 & 0 & -\frac{mg}{M} & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & \frac{(M+m)g}{Ml} & 0 \end{bmatrix}
 $$
+
+Let's multiply the first row of $A$ by $\mathbf{x}$ to see what it means:
+
+- Row 1 (Kinematics):
+
+$$
+\dot{x} = (0)x + (1)\dot{x} + (0)\theta + (0)\dot{\theta} \implies \mathbf{\dot{x} = \dot{x}}
+$$
+
+Translation: "The change in position is equal to the velocity." (This is just a definition).
+
+- Row 2 (Dynamics):
+
+$$
+\ddot{x} = (0)x + (0)\dot{x} + (-\frac{mg}{M})\theta + (0)\dot{\theta}
+$$
+
+Translation: "The cart's acceleration depends on the pendulum angle." (As the pendulum falls, it pushes the cart).
+
+- Row 3 (Kinematics):
+
+$$
+\dot{\theta} = (0)x + (0)\dot{x} + (0)\theta + (1)\dot{\theta} \implies \mathbf{\dot{\theta} = \dot{\theta}}
+$$
+
+Translation: "The change in angle is equal to the angular velocity."
+
+- Row 4 (Dynamics):
+
+$$
+\ddot{\theta} = (0)x + (0)\dot{x} + (\frac{(M+m)g}{Ml})\theta + (0)\dot{\theta}
+$$
+
+Translation: "The angular acceleration is driven by gravity pulling on the angle." (This is the instability term).
+
+### Step 4: The Input Matrix ($B$) - "External Force"
+
+The $B$ matrix tells us how the external input $\mathbf{u}$ (Force $F$) affects the system.
+
+$$
+B = \begin{bmatrix} 0 \\ \frac{1}{M} \\ 0 \\ -\frac{1}{Ml} \end{bmatrix}
+$$
+
+Let's look at how the Input ($u$) adds to the equation:
+
+- Row 1 & 3 (Zeros): Force does not directly change position or angle. It only causes acceleration, which eventually changes position/angle.
+
+- Row 2 (Cart Acceleration):
+
+$$
+\ddot{x}_{new} = \ddot{x}_{old} + (\frac{1}{M}) u
+$$
+
+Translation: Newton's Law ($F=ma \rightarrow a = F/m$). Pushing the cart accelerates it.
+
+- Row 4 (Pendulum Acceleration):
+
+$$
+\ddot{\theta}_{new} = \ddot{\theta}_{old} + (-\frac{1}{Ml}) u
+$$
+
+Translation: Pushing the cart creates a "reaction torque" on the pendulum rod, causing it to rotate in the opposite direction.
+
+### Summary Equation
+
+Putting it all together, the matrix equation $\dot{\mathbf{x}} = A\mathbf{x} + B\mathbf{u}$ is just a compact way of writing these four linear equations at once:
+
+1. $\text{Velocity} = \text{Velocity}$
+2. $\text{Cart Accel} = (\text{Gravity effects}) + (\text{Force effects})$
+3. $\text{Ang. Velocity} = \text{Ang. Velocity}$
+4. $\text{Ang. Accel} = (\text{Gravity effects}) + (\text{Reaction Force effects})$
 
 ### Summary of Stability
 
