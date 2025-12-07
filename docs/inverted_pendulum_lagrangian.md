@@ -372,6 +372,8 @@ $$
 
 Here is an example of the model implementation in Python code:
 
+[source](../dynamics/inverted_pendulum_dynamics.py)
+
 ```python
 import numpy as np
 
@@ -385,13 +387,9 @@ g = 9.8       # gravity [m/s^2]
 
 # Control & Simulation Parameters
 nx = 4        # number of states [x, v, theta, omega]
-nu = 1        # number of inputs [Force]
-Q = np.diag([0.0, 1.0, 1.0, 0.0])  # state cost matrix (for LQR/MPC)
-R = np.diag([0.01])                # input cost matrix (for LQR/MPC)
 
 T = 30           # Horizon length
 delta_t = 0.02    # time tick [s]
-sim_time = 5.0   # simulation time [s]
 
 # ==========================================
 # 2. Mathematical Model Implementation
