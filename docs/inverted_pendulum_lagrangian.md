@@ -100,21 +100,15 @@ $$
 where:
 
 $$
-q = \begin{bmatrix}x
+q = \begin{bmatrix}x \\
 \theta
-\end{bmatrix}
-$$
-
-$$
+\end{bmatrix}, \quad
 \dot{q}=
 \begin{bmatrix}
 \dot{x} \\
 \dot{\theta}
-\end{bmatrix}
-$$
-
-$$
-Q = \begin{bmatrix} Q_x
+\end{bmatrix} \quad
+Q = \begin{bmatrix} Q_x \\
 Q_\theta
 \end{bmatrix}
 $$
@@ -160,7 +154,8 @@ The equation becomes:
 
 $$
 \frac{d}{dt}\left(\frac{\partial \mathcal{L}}{\partial \dot{q}}\right) -
-\frac{\partial \mathcal{L}}{\partial q} = \begin{bmatrix} (M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta\right) \\ ml\ddot{x} \cos\theta - ml\dot{x}\dot{\theta} \sin\theta + m l^2 \ddot{\theta} + m l \dot{x}\dot{\theta} \sin\theta - m g l \sin\theta
+\frac{\partial \mathcal{L}}{\partial q} = \begin{bmatrix} (M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta\right) \\
+ml\ddot{x} \cos\theta - ml\dot{x}\dot{\theta} \sin\theta + m l^2 \ddot{\theta} + m l \dot{x}\dot{\theta} \sin\theta - m g l \sin\theta
 \end{bmatrix}
 $$
 
@@ -266,7 +261,15 @@ $$
 We define the state vector $\mathbf{x}$ and the input $u$:
 
 $$
-\mathbf{x} = \begin{bmatrix} x \\ \dot{x} \\ \theta \\ \dot{\theta} \end{bmatrix} = \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \end{bmatrix}, \quad u = F
+\mathbf{x} = \begin{bmatrix} x \\
+\dot{x} \\
+\theta \\
+\dot{\theta}
+\end{bmatrix} = \begin{bmatrix} x_1 \\
+x_2 \\
+x_3 \\
+x_4
+\end{bmatrix}, \quad u = F
 $$
 
 The first-order derivatives are:
