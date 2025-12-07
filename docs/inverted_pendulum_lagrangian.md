@@ -174,15 +174,13 @@ $$
 \begin{bmatrix}
 (M+m)\ddot{x} + m l\left(\ddot{\theta} \cos\theta - \dot{\theta}^2 \sin\theta\right) \\
 ml\ddot{x} \cos\theta + m l^2 \ddot{\theta} - m g l \sin\theta
-\end{bmatrix}
-= \begin{bmatrix} Q_x \\ Q_\theta \end{bmatrix}
+\end{bmatrix} = \begin{bmatrix} Q_x \\
+Q_\theta \end{bmatrix}
 $$
 
 Generalized forces:
 
-$$ Q_x = F $$
-
-$$ Q\_\theta = 0 $$
+$$ Q*x = F, \quad Q*\theta = 0 $$
 
 So, the final equations are:
 
