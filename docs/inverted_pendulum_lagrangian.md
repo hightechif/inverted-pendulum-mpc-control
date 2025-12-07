@@ -280,7 +280,14 @@ $$
 The "State" is a snapshot of exactly what the system is doing at a specific moment. For the pendulum, we need 4 numbers to fully describe it:
 
 $$
-\mathbf{x} = \begin{bmatrix} x \\ \dot{x} \\ \theta \\ \dot{\theta} \end{bmatrix} \begin{aligned} & \leftarrow \text{Cart Position} \\ & \leftarrow \text{Cart Velocity} \\ & \leftarrow \text{Pendulum Angle} \\ & \leftarrow \text{Pendulum Angular Velocity} \end{aligned}
+\mathbf{x} = \begin{bmatrix} x \\
+\dot{x} \\
+\theta \\
+\dot{\theta} \end{bmatrix} \begin{aligned} & \leftarrow \text{Cart Position} \\
+& \leftarrow \text{Cart Velocity} \\
+& \leftarrow \text{Pendulum Angle} \\
+& \leftarrow \text{Pendulum Angular Velocity}
+\end{aligned}
 $$
 
 ### Step 2: The Derivative Vector ($\dot{\mathbf{x}}$)
@@ -288,7 +295,14 @@ $$
 This represents how the state is changing. It is simply the time derivative of the vector above.
 
 $$
-\dot{\mathbf{x}} = \begin{bmatrix} \dot{x} \\ \ddot{x} \\ \dot{\theta} \\ \ddot{\theta} \end{bmatrix} \begin{aligned} & \leftarrow \text{Velocity (change in position)} \\ & \leftarrow \text{Acceleration (change in velocity)} \\ & \leftarrow \text{Angular Velocity (change in angle)} \\ & \leftarrow \text{Angular Accel (change in ang. vel)} \end{aligned}
+\dot{\mathbf{x}} = \begin{bmatrix} \dot{x} \\
+\ddot{x} \\
+\dot{\theta} \\
+\ddot{\theta} \end{bmatrix} \begin{aligned} & \leftarrow \text{Velocity (change in position)} \\
+& \leftarrow \text{Acceleration (change in velocity)} \\
+& \leftarrow \text{Angular Velocity (change in angle)} \\
+& \leftarrow \text{Angular Accel (change in ang. vel)}
+\end{aligned}
 $$
 
 ### Step 3: The System Matrix ($A$) - "Internal Physics"
@@ -296,7 +310,11 @@ $$
 The $A$ matrix tells us how the system behaves naturally if no external force is applied. It connects the current state ($\mathbf{x}$) to the changes ($\dot{\mathbf{x}}$).
 
 $$
-A = \begin{bmatrix} 0 & 1 & 0 & 0 \\ 0 & 0 & -\frac{mg}{M} & 0 \\ 0 & 0 & 0 & 1 \\ 0 & 0 & \frac{(M+m)g}{Ml} & 0 \end{bmatrix}
+A = \begin{bmatrix} 0 & 1 & 0 & 0 \\
+0 & 0 & -\frac{mg}{M} & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & \frac{(M+m)g}{Ml} & 0
+\end{bmatrix}
 $$
 
 Let's multiply the first row of $A$ by $\mathbf{x}$ to see what it means:
@@ -338,7 +356,10 @@ Translation: "The angular acceleration is driven by gravity pulling on the angle
 The $B$ matrix tells us how the external input $\mathbf{u}$ (Force $F$) affects the system.
 
 $$
-B = \begin{bmatrix} 0 \\ \frac{1}{M} \\ 0 \\ -\frac{1}{Ml} \end{bmatrix}
+B = \begin{bmatrix} 0 \\
+\frac{1}{M} \\
+0 \\
+-\frac{1}{Ml} \end{bmatrix}
 $$
 
 Let's look at how the Input ($u$) adds to the equation:
