@@ -259,14 +259,14 @@ $$
 State-Space Diagram:
 
 ```ascii
-  u   +---+  (Bu)   +---+ (x_dot) +---+       x
------>| B |-------->| + |-------->| ∫ |-------------->
-      +---+         +---+         +---+       |
-                      ^                       |
-                      |                       |
-                      |    (Ax)   +---+       v
-                      +-----------| A |<------+
-                                  +---+
+    u   +---+  (Bu)   +---+  (x_dot)  +---+        x
+  ----->| B |-------->| + |---------->| ∫ |-------------------->
+        +---+         +---+           +---+          |
+                        ^                            |
+                        |                            |
+                        |      (Ax)   +---+          v
+                        |<------------| A |<----------
+                                      +---+
 ```
 
 Here is the step-by-step breakdown of the State-Space Representation equation for the inverted pendulum. The core equation is:
