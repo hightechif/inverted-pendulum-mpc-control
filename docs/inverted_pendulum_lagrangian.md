@@ -2,22 +2,22 @@
 
 ## 1. System Description
 
-Diagram:
+Free Body Diagram:
 
 ```ascii
-                        ^  y (up)
-                        |
-                        |           o <-- PENDULUM (mass m)
-                        | θ(theta) /
-                        |         /
-                        |        /
-                        |       /
-                        |      /
-                        |     / l
-                        |    /
-                        |   /
-                        |  /
-                        | /
+                           ^  y (up)
+                           |
+                           |           o <-- PENDULUM (mass m)
+                           | θ(theta) /
+                           |         /
+                           |        /
+                           |       /
+                           |      /
+                           |     / l
+                           |    /
+                           |   /
+                           |  /
+                           | /
           +----------------------------------+
           |                                  |
 F ---- > +|          CART (mass M)           |+ ------- > x (right)
@@ -259,12 +259,12 @@ $$
 State-Space Diagram:
 
 ```ascii
-    u   +---+  (Bu)   +---+  (x_dot)  +---+          x
+    u   +---+  (Bu)   +---+  (q_dot)  +---+          q
   ----->| B |-------->| + |---------->| ∫ |----------+--------->
         +---+         +---+           +---+          |
                         ^                            |
                         |                            |
-                        |     (Ax)    +---+          v
+                        |     (Aq)    +---+          v
                         +<------------| A |<---------+
                                       +---+
 ```
@@ -272,15 +272,15 @@ State-Space Diagram:
 Here is the step-by-step breakdown of the State-Space Representation equation for the inverted pendulum. The core equation is:
 
 $$
-\dot{\mathbf{x}} = A\mathbf{x} + B\mathbf{u}
+\dot{\mathbf{q}} = A\mathbf{q} + B\mathbf{u}
 $$
 
-### Step 1: The State Vector ($\mathbf{x}$)
+### Step 1: The State Vector ($\mathbf{q}$)
 
-The "State" is a snapshot of exactly what the system is doing at a specific moment. For the pendulum, we need 4 numbers to fully describe it:
+The "State" is a snapshot of exactly what the system is doing at a specific moment. For the pendulum, we need 4 numbers to describe it fully:
 
 $$
-\mathbf{x} = \begin{bmatrix} x \\
+\mathbf{q} = \begin{bmatrix} x \\
 \dot{x} \\
 \theta \\
 \dot{\theta} \end{bmatrix} \begin{aligned} & \leftarrow \text{Cart Position} \\
@@ -290,12 +290,12 @@ $$
 \end{aligned}
 $$
 
-### Step 2: The Derivative Vector ($\dot{\mathbf{x}}$)
+### Step 2: The Derivative Vector ($\dot{\mathbf{q}}$)
 
 This represents how the state is changing. It is simply the time derivative of the vector above.
 
 $$
-\dot{\mathbf{x}} = \begin{bmatrix} \dot{x} \\
+\dot{\mathbf{q}} = \begin{bmatrix} \dot{x} \\
 \ddot{x} \\
 \dot{\theta} \\
 \ddot{\theta} \end{bmatrix} \begin{aligned} & \leftarrow \text{Velocity (change in position)} \\
@@ -307,7 +307,7 @@ $$
 
 ### Step 3: The System Matrix ($A$) - "Internal Physics"
 
-The $A$ matrix tells us how the system behaves naturally if no external force is applied. It connects the current state ($\mathbf{x}$) to the changes ($\dot{\mathbf{x}}$).
+The $A$ matrix tells us how the system behaves naturally if no external force is applied. It connects the current state ($\mathbf{q}$) to the changes ($\dot{\mathbf{q}}$).
 
 $$
 A = \begin{bmatrix} 0 & 1 & 0 & 0 \\
@@ -322,7 +322,7 @@ Let's multiply the first row of $A$ by $\mathbf{x}$ to see what it means:
 - Row 1 (Kinematics):
 
 $$
-\dot{x} = (0)x + (1)\dot{x} + (0)\theta + (0)\dot{\theta} \implies \mathbf{\dot{x} = \dot{x}}
+\dot{x} \propto (0)x + (1)\dot{x} + (0)\theta + (0)\dot{\theta} \implies \mathbf{\dot{x} \propto \dot{x}}
 $$
 
 Translation: "The change in position is equal to the velocity." (This is just a definition).
@@ -330,7 +330,7 @@ Translation: "The change in position is equal to the velocity." (This is just a 
 - Row 2 (Dynamics):
 
 $$
-\ddot{x} = (0)x + (0)\dot{x} + (-\frac{mg}{M})\theta + (0)\dot{\theta}
+\ddot{x} \propto (0)x + (0)\dot{x} + (-\frac{mg}{M})\theta + (0)\dot{\theta} \implies  \ddot{x} \propto  - \frac{m g}{M}\theta
 $$
 
 Translation: "The cart's acceleration depends on the pendulum angle." (As the pendulum falls, it pushes the cart).
@@ -338,7 +338,7 @@ Translation: "The cart's acceleration depends on the pendulum angle." (As the pe
 - Row 3 (Kinematics):
 
 $$
-\dot{\theta} = (0)x + (0)\dot{x} + (0)\theta + (1)\dot{\theta} \implies \mathbf{\dot{\theta} = \dot{\theta}}
+\dot{\theta} \propto (0)x + (0)\dot{x} + (0)\theta + (1)\dot{\theta} \implies \mathbf{\dot{\theta} \propto \dot{\theta}}
 $$
 
 Translation: "The change in angle is equal to the angular velocity."
@@ -346,7 +346,7 @@ Translation: "The change in angle is equal to the angular velocity."
 - Row 4 (Dynamics):
 
 $$
-\ddot{\theta} = (0)x + (0)\dot{x} + (\frac{(M+m)g}{Ml})\theta + (0)\dot{\theta}
+\ddot{\theta} \propto (0)x + (0)\dot{x} + (\frac{(M+m)g}{Ml})\theta + (0)\dot{\theta} \implies \ddot{\theta} \propto \frac{g(M+m)}{l M}\theta
 $$
 
 Translation: "The angular acceleration is driven by gravity pulling on the angle." (This is the instability term).
@@ -369,7 +369,7 @@ Let's look at how the Input ($u$) adds to the equation:
 - Row 2 (Cart Acceleration):
 
 $$
-\ddot{x}_{new} = \ddot{x}_{old} + (\frac{1}{M}) u
+\ddot{x}_{new} = \ddot{x}_{old} + (\frac{1}{M}) u \implies \ddot{x} \propto \frac{1}{M}F
 $$
 
 Translation: Newton's Law ($F=ma \rightarrow a = F/m$). Pushing the cart accelerates it.
@@ -377,14 +377,14 @@ Translation: Newton's Law ($F=ma \rightarrow a = F/m$). Pushing the cart acceler
 - Row 4 (Pendulum Acceleration):
 
 $$
-\ddot{\theta}_{new} = \ddot{\theta}_{old} + (-\frac{1}{Ml}) u
+\ddot{\theta}_{new} = \ddot{\theta}_{old} + (-\frac{1}{Ml}) u \implies \ddot{\theta} \propto - \frac{1}{l M}F
 $$
 
 Translation: Pushing the cart creates a "reaction torque" on the pendulum rod, causing it to rotate in the opposite direction.
 
 ### Summary Equation
 
-Putting it all together, the matrix equation $\dot{\mathbf{x}} = A\mathbf{x} + B\mathbf{u}$ is just a compact way of writing these four linear equations at once:
+Putting it all together, the matrix equation $\dot{\mathbf{q}} = A\mathbf{q} + B\mathbf{u}$ is just a compact way of writing these four linear equations at once:
 
 1. $\text{Velocity} = \text{Velocity}$
 2. $\text{Cart Accel} = (\text{Gravity effects}) + (\text{Force effects})$
@@ -401,32 +401,32 @@ Notice the element $A_{4,3} = \frac{(M+m)g}{Ml}$. Since $M, m, g, l$ are all pos
 
 Computers cannot calculate continuous derivatives ($\dot{x}$); they calculate in discrete time steps ($\Delta t$). The Forward Euler Method approximates the continuous system for digital simulation.
 
-We approximate velocity ($\dot{x}$) as the slope between two time steps:
+We approximate state-space rate ($\dot{q}$) as the slope between two time steps:
 
 $$
-\dot{x} \approx \frac{x_{k+1} - x_k}{\Delta t}
+\dot{q} \approx \frac{q_{k+1} - q_k}{\Delta t}
 $$
 
-Substitute this into the continuous state-space equation ($\dot{x} = Ax + Bu$):
+Substitute this into the continuous state-space equation ($\dot{q} = Aq + Bu$):
 
 $$
-\frac{x_{k+1} - x_k}{\Delta t} = A x_k + B u_k
+\frac{q_{k+1} - q_k}{\Delta t} = A q_k + B u_k
 $$
 
-Solve for the next state ($x_{k+1}$):
+Solve for the next state ($q_{k+1}$):
 
 $$
-x_{k+1} - x_k = (A \cdot \Delta t) x_k + (B \cdot \Delta t) u_k
+q_{k+1} - q_k = (A \cdot \Delta t) q_k + (B \cdot \Delta t) u_k
 $$
 
 $$
-x_{k+1} = x_k + (A \cdot \Delta t) x_k + (B \cdot \Delta t) u_k
+q_{k+1} = q_k + (A \cdot \Delta t) q_k + (B \cdot \Delta t) u_k
 $$
 
-Factor out $x_k$ (using Identity matrix $I$):
+Factor out $q_k$ (using Identity matrix $I$):
 
 $$
-x_{k+1} = (I + A \cdot \Delta t) x_k + (B \cdot \Delta t) u_k
+q_{k+1} = (I + A \cdot \Delta t) q_k + (B \cdot \Delta t) u_k
 $$
 
 ---
@@ -482,7 +482,7 @@ def get_model_matrix():
     ])
 
     # Discretization (Forward Euler Method)
-    # x[k+1] = (I + A*dt)x[k] + (B*dt)u[k]
+    # q[k+1] = (I + A*dt)q[k] + (B*dt)u[k]
     A_discrete = np.eye(nx) + delta_t * A_cont
     B_discrete = delta_t * B_cont
 
