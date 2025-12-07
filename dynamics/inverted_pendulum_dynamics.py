@@ -68,7 +68,7 @@ def get_model_matrix(config: PendulumConfig) -> Tuple[np.ndarray, np.ndarray]:
     ])
 
     # Discretization (Forward Euler Method)
-    # x[k+1] = (I + A*dt)x[k] + (B*dt)u[k]
+    # q[k+1] = (I + A*dt)q[k] + (B*dt)u[k]
     A_discrete: np.ndarray = np.eye(config.nx) + (A_cont * dt)
     B_discrete: np.ndarray = B_cont * dt
 
