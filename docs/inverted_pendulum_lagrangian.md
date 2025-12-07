@@ -245,11 +245,26 @@ $$
 Solution for $\ddot{x}$ and $\ddot{\theta}$:
 
 $$
-\ddot{x} = \frac{1}{M}F - \frac{m g}{M}\theta
+\ddot{x} = - \frac{m g}{M}\theta + \frac{1}{M}F
 $$
 
 $$
 \ddot{\theta} = \frac{g(M+m)}{l M}\theta - \frac{1}{l M}F
+$$
+
+or we can write it in a matrix form:
+
+$$
+\begin{bmatrix}\ddot{x} \\
+\ddot{\theta} \end{bmatrix} =
+\begin{bmatrix}0 & -\frac{mg}{M}\\
+0 & \frac{(M+m)g}{Ml}
+\end{bmatrix}
+\begin{bmatrix} x \\
+\theta
+\end{bmatrix} +
+\begin{bmatrix} \frac{1}{M} \\
+-\frac{1}{Ml} \end{bmatrix}F
 $$
 
 ---
@@ -303,6 +318,89 @@ $$
 & \leftarrow \text{Angular Velocity (change in angle)} \\
 & \leftarrow \text{Angular Accel (change in ang. vel)}
 \end{aligned}
+$$
+
+We know:
+
+1. $\ddot{x} = - \frac{m g}{M}\theta + \frac{1}{M}F $
+2. $\ddot{\theta} = \frac{g(M+m)}{l M}\theta - \frac{1}{l M}F$
+
+Let's put those equations into a matrix form.
+
+$$
+\begin{bmatrix}\ddot{x} \\
+\ddot{\theta} \end{bmatrix} =
+\begin{bmatrix}0 & -\frac{mg}{M}\\
+0 & \frac{(M+m)g}{Ml}
+\end{bmatrix}
+\begin{bmatrix} x \\
+\theta
+\end{bmatrix} +
+\begin{bmatrix} \frac{1}{M} \\
+-\frac{1}{Ml} \end{bmatrix}F
+$$
+
+We can expand our matrix equation by adding the identity equation:
+
+1. $\dot{x} = \dot{x}$
+2. $\dot{\theta} = \dot{\theta}$
+
+So, our matrix equation becomes like this:
+
+$$
+\begin{bmatrix} \dot{x} \\
+\ddot{x} \\
+\dot{\theta} \\
+\ddot{\theta} \end{bmatrix} =
+\begin{bmatrix} 0 & 1 & 0 & 0 \\
+0 & 0 & -\frac{mg}{M} & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & \frac{(M+m)g}{Ml} & 0
+\end{bmatrix}
+\begin{bmatrix} x \\
+\dot{x} \\
+\theta \\
+\dot{\theta} \end{bmatrix} +
+\begin{bmatrix} 0 \\
+\frac{1}{M} \\
+0 \\
+-\frac{1}{Ml} \end{bmatrix}F
+$$
+
+Instead of using a general $F$ force, let us use $u$ as the only external force acting on the system. So the matrix equation transforms into:
+
+$$
+\begin{bmatrix} \dot{x} \\
+\ddot{x} \\
+\dot{\theta} \\
+\ddot{\theta} \end{bmatrix} =
+\begin{bmatrix} 0 & 1 & 0 & 0 \\
+0 & 0 & -\frac{mg}{M} & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & \frac{(M+m)g}{Ml} & 0
+\end{bmatrix}
+\begin{bmatrix} x \\
+\dot{x} \\
+\theta \\
+\dot{\theta} \end{bmatrix} +
+\begin{bmatrix} 0 \\
+\frac{1}{M} \\
+0 \\
+-\frac{1}{Ml} \end{bmatrix}u
+$$
+
+This is the form of $\dot{\mathbf{q}} = A\mathbf{q} + B\mathbf{u}$. So, we got the A and the B.
+
+$$
+A = \begin{bmatrix} 0 & 1 & 0 & 0 \\
+0 & 0 & -\frac{mg}{M} & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & \frac{(M+m)g}{Ml} & 0
+\end{bmatrix}, \quad
+B = \begin{bmatrix} 0 \\
+\frac{1}{M} \\
+0 \\
+-\frac{1}{Ml} \end{bmatrix}
 $$
 
 ### Step 3: The System Matrix ($A$) - "Internal Physics"
@@ -369,7 +467,7 @@ Let's look at how the Input ($u$) adds to the equation:
 - Row 2 (Cart Acceleration):
 
 $$
-\ddot{x}_{new} = \ddot{x}_{old} + (\frac{1}{M}) u \implies \ddot{x} \propto \frac{1}{M}F
+\ddot{x}_{new} = \ddot{x}_{old} + (\frac{1}{M}) u \implies \ddot{x} \propto \frac{1}{M}u
 $$
 
 Translation: Newton's Law ($F=ma \rightarrow a = F/m$). Pushing the cart accelerates it.
@@ -377,7 +475,7 @@ Translation: Newton's Law ($F=ma \rightarrow a = F/m$). Pushing the cart acceler
 - Row 4 (Pendulum Acceleration):
 
 $$
-\ddot{\theta}_{new} = \ddot{\theta}_{old} + (-\frac{1}{Ml}) u \implies \ddot{\theta} \propto - \frac{1}{l M}F
+\ddot{\theta}_{new} = \ddot{\theta}_{old} + (-\frac{1}{Ml}) u \implies \ddot{\theta} \propto - \frac{1}{l M}u
 $$
 
 Translation: Pushing the cart creates a "reaction torque" on the pendulum rod, causing it to rotate in the opposite direction.
@@ -399,9 +497,9 @@ Notice the element $A_{4,3} = \frac{(M+m)g}{Ml}$. Since $M, m, g, l$ are all pos
 
 ## 8. Discretization: Forward Euler Method
 
-Computers cannot calculate continuous derivatives ($\dot{x}$); they calculate in discrete time steps ($\Delta t$). The Forward Euler Method approximates the continuous system for digital simulation.
+Computers cannot calculate continuous derivatives ($\dot{q}$); they calculate in discrete time steps ($\Delta t$). The Forward Euler Method approximates the continuous system for digital simulation.
 
-We approximate state-space rate ($\dot{q}$) as the slope between two time steps:
+We approximate state change rate ($\dot{q}$) as the slope between two time steps:
 
 $$
 \dot{q} \approx \frac{q_{k+1} - q_k}{\Delta t}
@@ -443,16 +541,16 @@ import numpy as np
 # ==========================================
 # 1. System Parameters
 # ==========================================
-l_bar = 2.0   # length of bar [m]
-M = 1.0       # mass of cart [kg]
-m = 0.3       # mass of pendulum [kg]
-g = 9.8       # gravity [m/s^2]
+l_bar = 2.0      # length of bar [m]
+M = 1.0          # mass of cart [kg]
+m = 0.3          # mass of pendulum [kg]
+g = 9.8          # gravity [m/s^2]
 
 # Control & Simulation Parameters
-nx = 4        # number of states [x, v, theta, omega]
+nx = 4           # number of states [x, v, theta, omega]
 
 T = 30           # Horizon length
-delta_t = 0.02    # time tick [s]
+delta_t = 0.02   # time tick [s]
 
 # ==========================================
 # 2. Mathematical Model Implementation
