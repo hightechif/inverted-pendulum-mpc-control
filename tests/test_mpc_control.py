@@ -13,7 +13,7 @@ class TestMPCController(unittest.TestCase):
         """Test that the controller initializes correctly."""
         self.assertIsInstance(self.controller, MPCController)
         self.assertEqual(self.controller.T, self.config.T)
-        self.assertEqual(self.controller.nx, self.config.nx)
+        self.assertEqual(self.controller.nq, self.config.nq)
         self.assertEqual(self.controller.nu, self.config.nu)
 
     def test_get_input_success(self):
