@@ -27,6 +27,19 @@ class PendulumConfig:
         """Number of inputs (fixed for this physics model)."""
         return 1
 
+    # MPC Constants
+    T: int = 100             # Horizon length
+    Q_diag: Tuple[float, ...] = (0.0, 1.0, 1.0, 0.0) # State cost diagonal
+    R_diag: Tuple[float, ...] = (0.01,)              # Input cost diagonal
+
+    # Simulation Constants
+    sim_time: float = 5.0   # Total simulation time [s]
+    
+    # Visualization Constants
+    cart_w: float = 1.0     # Cart width [m]
+    cart_h: float = 0.5     # Cart height [m]
+    cart_r: float = 0.1     # Wheel radius [m]
+
 # ==========================================
 # 2. Mathematical Model Implementation
 # ==========================================
