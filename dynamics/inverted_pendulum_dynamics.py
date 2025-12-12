@@ -2,6 +2,9 @@ import numpy as np
 from dataclasses import dataclass
 from typing import Tuple, Optional
 
+import yaml
+import os
+
 # ==========================================
 # 1. Configuration Data Class
 # ==========================================
@@ -9,36 +12,63 @@ from typing import Tuple, Optional
 class PendulumConfig:
     """
     Data class to hold physical and simulation parameters.
-    This replaces global variables for better encapsulation.
+    Loads from config.yaml if available, otherwise uses defaults.
     """
-    l_bar: float = 2.0      # length of bar [m] (full length? usually l is dist to COM. Assuming l_bar is full length and COM is at l_bar/2 if uniform, OR l_bar is dist to COM. Existing code used l in denominator of A matrix entry (4,3): g*(M+m)/(l*M). For simple pendulum, l is length to mass. Let's assume l_bar is length to COM/mass.)
-    M: float = 1.0          # mass of cart [kg]
-    m: float = 0.3          # mass of pendulum [kg]
-    g: float = 9.8          # gravity [m/s^2]
-    delta_t: float = 0.02   # time tick [s]
+    l_bar: float = 2.0
+    M: float = 1.0
+    m: float = 0.3
+    g: float = 9.8
+    delta_t: float = 0.02
     
     @property
     def nx(self) -> int:
-        """Number of states (fixed for this physics model)."""
         return 4
 
     @property
     def nu(self) -> int:
-        """Number of inputs (fixed for this physics model)."""
         return 1
 
     # MPC Constants
-    T: int = 100             # Horizon length
-    Q_diag: Tuple[float, ...] = (0.0, 1.0, 1.0, 0.0) # State cost diagonal
-    R_diag: Tuple[float, ...] = (0.01,)              # Input cost diagonal
+    T: int = 100
+    Q_diag: Tuple[float, ...] = (0.0, 1.0, 1.0, 0.0)
+    R_diag: Tuple[float, ...] = (0.01,)
 
     # Simulation Constants
-    sim_time: float = 5.0   # Total simulation time [s]
+    sim_time: float = 5.0
     
     # Visualization Constants
-    cart_w: float = 1.0     # Cart width [m]
-    cart_h: float = 0.5     # Cart height [m]
-    cart_r: float = 0.1     # Wheel radius [m]
+    cart_w: float = 1.0
+    cart_h: float = 0.5
+    cart_r: float = 0.1
+
+    def __post_init__(self):
+        """Load parameters from config.yaml if it exists."""
+        config_path = os.path.join(os.path.dirname(__file__), '..', 'config.yaml')
+        if os.path.exists(config_path):
+            try:
+                with open(config_path, 'r') as f:
+                    config = yaml.safe_load(f)
+                    
+                if config:
+                    self.l_bar = config.get('l_bar', self.l_bar)
+                    self.M = config.get('M', self.M)
+                    self.m = config.get('m', self.m)
+                    self.g = config.get('g', self.g)
+                    self.delta_t = config.get('delta_t', self.delta_t)
+                    self.T = config.get('T', self.T)
+                    if 'Q_diag' in config:
+                        self.Q_diag = tuple(config['Q_diag'])
+                    if 'R_diag' in config:
+                        self.R_diag = tuple(config['R_diag'])
+                    self.sim_time = config.get('sim_time', self.sim_time)
+                    self.cart_w = config.get('cart_w', self.cart_w)
+                    self.cart_h = config.get('cart_h', self.cart_h)
+                    self.cart_r = config.get('cart_r', self.cart_r)
+                    print(f"Loaded configuration from {config_path}")
+            except Exception as e:
+                print(f"Failed to load config.yaml: {e}. Using defaults.")
+        else:
+            print("config.yaml not found. Using defaults.")
 
 # ==========================================
 # 2. Mathematical Model Implementation

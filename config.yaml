@@ -1,0 +1,19 @@
+# Physical Parameters
+l_bar: 2.0      # length of bar [m]
+M: 1.0          # mass of cart [kg]
+m: 0.3          # mass of pendulum [kg]
+g: 9.8          # gravity [m/s^2]
+
+# Simulation Parameters
+delta_t: 0.02   # time tick [s]
+sim_time: 5.0   # Total simulation time [s]
+
+# MPC Parameters
+T: 100          # Horizon length
+Q_diag: [0.0, 1.0, 1.0, 0.0] # State cost diagonal [p, p_dot, theta, theta_dot]
+R_diag: [0.01]               # Input cost diagonal [u]
+
+# Visualization Parameters
+cart_w: 1.0     # Cart width [m]
+cart_h: 0.5     # Cart height [m]
+cart_r: 0.1     # Wheel radius [m]

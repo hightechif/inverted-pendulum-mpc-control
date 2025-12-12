@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
+import csv
 from dynamics.inverted_pendulum_dynamics import PendulumConfig
 from control.mpc_control import MPCController
 from simulation.simulation import simulation, plot_cart
@@ -28,6 +29,9 @@ def main() -> None:
     x: np.ndarray = np.copy(x0)
     current_time: float = 0.0
 
+    # Data logging
+    log_data = []
+
     print("Starting simulation...")
     try:
         while current_time < config.sim_time:
@@ -41,6 +45,10 @@ def main() -> None:
 
             # Get input (first element of optimal sequence)
             u: float = opt_input[0]
+
+            # Log data
+            # time, p, p_dot, theta, theta_dot, u
+            log_data.append([current_time, x[0, 0], x[1, 0], x[2, 0], x[3, 0], u])
 
             # Simulate system (Non-linear dynamics)
             x = simulation(x, u, delta_t, config)
@@ -64,6 +72,14 @@ def main() -> None:
     finally:
         print("Finish")
         print(f"Final State: x={float(x[0, 0]):.2f} [m] , theta={math.degrees(x[2, 0]):.2f} [deg]")
+        
+        # Save log data
+        with open('data/simulation_data.csv', 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(['time', 'p', 'p_dot', 'theta', 'theta_dot', 'u'])
+            writer.writerows(log_data)
+        print("Data saved to data/simulation_data.csv")
+
         if show_animation:
             plt.show()
 
