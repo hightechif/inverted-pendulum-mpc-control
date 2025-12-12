@@ -54,7 +54,7 @@ def main() -> None:
                 theta: float = float(x[2, 0])
                 plot_cart(px, theta, config)
                 plt.xlim([-5.0, 5.0])
-                plt.ylim([-2.0, 4.0])
+                plt.ylim([0.0, 4.0])
                 plt.grid(True)
                 plt.title(f"Time: {current_time:.2f}s, x: {px:.2f}, theta: {math.degrees(theta):.2f}")
                 plt.pause(0.001)
