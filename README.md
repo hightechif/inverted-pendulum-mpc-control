@@ -45,6 +45,14 @@ python main.py
 
 The simulation will start, and you should see a window showing the cart balancing the pendulum. The terminal will output the simulation status.
 
+## Testing
+
+To run the unit tests for the dynamics and controller:
+
+```bash
+python -m unittest discover tests
+```
+
 ## Project Structure
 
 - `control/`: Contains the MPC controller implementation.
