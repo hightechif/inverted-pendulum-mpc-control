@@ -63,6 +63,7 @@ python -m unittest discover tests
   - `simulation.py`: RK4 integration and plotting functions.
 - `main.py`: Entry point for the simulation.
 - `docs/`: Documentation files.
+- `data/`: Simulation data files.
 
 ## Theory
 
@@ -72,10 +73,12 @@ The control strategy involves:
 1. **Linearization**: The nonlinear dynamics are linearized around the upright equilibrium point ($\theta = 0$).
 2. **Discretization**: The continuous linear model is discretized using Forward Euler method.
 3. **MPC Formulation**: An optimization problem is solved at each time step to minimize a cost function over a finite horizon $T$, subject to system dynamics and constraints.
-   $$
-   J = \sum_{k=0}^{T-1} (x_{k+1}^T Q x_{k+1} + u_k^T R u_k)
-   $$
-   where $Q$ and $R$ are weighting matrices penalizing state deviation and control effort, respectively.
+
+$$
+J = \sum_{k=0}^{T-1} (x_{k+1}^T Q x_{k+1} + u_k^T R u_k)
+$$
+
+where $Q$ and $R$ are weighting matrices penalizing state deviation and control effort, respectively.
 
 ## License
 
