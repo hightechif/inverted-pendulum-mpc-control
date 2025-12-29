@@ -1,0 +1,23 @@
+[project]
+name = "inverted-pendulum-mpc-control"
+version = "0.1.0"
+description = "Inverted pendulum MPC control"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "cvxpy>=1.7.5",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.0",
+    "pyyaml>=6.0.3",
+]
+
+[tool.pytest.ini_options]
+pythonpath = [
+    "."
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-pythonpath>=0.7.3",
+]

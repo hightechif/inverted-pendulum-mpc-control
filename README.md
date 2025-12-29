@@ -18,21 +18,21 @@ A robust Model Predictive Control (MPC) implementation for stabilizing an invert
 
 ## Installation
 
-1. Clone the repository:
+1. Install [uv](https://github.com/astral-sh/uv):
+   ```bash
+   pip install uv
+   # or see https://docs.astral.sh/uv/getting-started/installation/
+   ```
+
+2. Clone the repository:
    ```bash
    git clone <repository-url>
    cd inverted-pendulum-mpc-control
    ```
 
-2. Create and activate a virtual environment (optional but recommended):
+3. Sync dependencies:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. Install dependencies:
-   ```bash
-   pip install numpy cvxpy matplotlib
+   uv sync
    ```
 
 ## Usage
@@ -40,7 +40,7 @@ A robust Model Predictive Control (MPC) implementation for stabilizing an invert
 Run the main simulation script:
 
 ```bash
-python main.py
+uv run main.py
 ```
 
 The simulation will start, and you should see a window showing the cart balancing the pendulum. The terminal will output the simulation status.
@@ -50,7 +50,7 @@ The simulation will start, and you should see a window showing the cart balancin
 To run the unit tests for the dynamics and controller:
 
 ```bash
-python -m unittest discover tests
+uv run pytest
 ```
 
 ## Project Structure
